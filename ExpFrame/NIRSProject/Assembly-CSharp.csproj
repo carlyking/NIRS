@@ -61,16 +61,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\Block.cs" />
+    <Compile Include="Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\BlockTable.cs" />
+    <Compile Include="Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\ColumnNames.cs" />
     <Compile Include="Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\ConfigDesignFile.cs" />
     <Compile Include="Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\ConfigFileCreation.cs" />
     <Compile Include="Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\ConfigOptions.cs" />
     <Compile Include="Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\Experiment.cs" />
     <Compile Include="Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\ExperimentDesign.cs" />
+    <Compile Include="Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\InvalidExperimentDesignException.cs" />
     <Compile Include="Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\Session.cs" />
     <Compile Include="Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\SimpleExperimentParts\SimpleBlock.cs" />
     <Compile Include="Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\SimpleExperimentParts\SimpleExperiment.cs" />
     <Compile Include="Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\SimpleExperimentParts\SimpleTrial.cs" />
     <Compile Include="Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\Trial.cs" />
+    <Compile Include="Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\TrialTable.cs" />
     <Compile Include="Assets\BML_ExperimentToolkit\Scripts\Managers\BlockSequenceRunner.cs" />
     <Compile Include="Assets\BML_ExperimentToolkit\Scripts\Managers\ExperimentEvents.cs" />
     <Compile Include="Assets\BML_ExperimentToolkit\Scripts\Managers\OutputManager.cs" />

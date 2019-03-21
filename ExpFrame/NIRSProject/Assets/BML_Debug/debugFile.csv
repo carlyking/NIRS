@@ -1,5 +1,9 @@
-Block, TrialInBlock, TrialNum, Size, RT, Completed, Attempts, Skipped
-0, 0, 0, 0.1, 5, True, 1, False
-0, 1, 1, 0.2, 5, True, 1, False
-0, 2, 2, 0.3, 5, True, 1, False
-0, 3, 3, 0.4, 5, True, 1, False
+Block, TrialInBlock, Trial, hfgghjk, Size, RT, Completed, Attempts, Skipped
+0, 0, 0, 0, 0.1, -999, False, 0, False
+0, 1, 1, 0, 0.2, -999, False, 0, False
+0, 2, 2, 0, 0.3, -999, False, 0, False
+0, 3, 3, 0, 0.4, -999, False, 0, False
+0, 4, 4, 1, 0.1, -999, False, 0, False
+0, 5, 5, 1, 0.2, -999, False, 0, False
+0, 6, 6, 1, 0.3, -999, False, 0, False
+0, 7, 7, 1, 0.4, -999, False, 0, False

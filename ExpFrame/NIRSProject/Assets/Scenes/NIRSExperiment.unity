@@ -276,6 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 071c4899b713a1241ba722fd69076a1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ColumnNames: {fileID: 11400000, guid: b004757e12fd66b43828570a0f83b1db, type: 2}
   ConfigDesignFile: {fileID: 11400000, guid: e860b14c051d5854fb6c9ed35afd0d3f, type: 2}
   ConfigOptions: {fileID: 1182771155}
   Running: 0

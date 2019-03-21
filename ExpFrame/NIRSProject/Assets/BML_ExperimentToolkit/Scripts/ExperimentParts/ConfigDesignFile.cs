@@ -4,23 +4,16 @@ using UnityEngine;
 namespace BML_ExperimentToolkit.Scripts.ExperimentParts {
 
     public class ConfigDesignFile : ScriptableObject {
+
         public bool ShuffleTrialOrder;
-        public int  NumberOfTimesToRepeatTrials = 1;
-
-
-
+        public bool ShuffleDifferentlyForEachBlock;
+        public int  RepeatTrialBlock;
+        
         [SerializeField]
         public VariableFactory Factory = new VariableFactory();
 
-        public const string TotalTrialIndexColumnName = "TrialNum";
-        public const string BlockIndexColumnName      = "Block";
-        public const string SkippedColumnName         = "Skipped";
-        public const string AttemptsColumnName        = "Attempts";
-        public const string TrialIndexColumnName      = "TrialInBlock";
-        public const string SuccessColumnName         = "Completed";
+        public ColumnNames ColumnNames;
 
-        public void PrintTrials() {
-            throw new System.NotImplementedException();
-        }
+       
     }
 }
