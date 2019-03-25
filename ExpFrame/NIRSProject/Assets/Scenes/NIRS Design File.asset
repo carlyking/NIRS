@@ -16,18 +16,9 @@ MonoBehaviour:
   ShuffleDifferentlyForEachBlock: 0
   RepeatTrialBlock: 0
   Factory:
-    DataTypesToCreate: 0
-    VariableTypeToCreate: 0
-    IntIVs:
-    - Name: hfgghjk
-      TypeOfVariable: 0
-      DataType: 0
-      MixingTypeOfVariable: 0
-      Block: 0
-      Values: 0000000001000000
-      Probabilities:
-      - 0
-      - 0
+    DataTypesToCreate: 1
+    VariableTypeToCreate: 1
+    IntIVs: []
     FloatIVs:
     - Name: Size
       TypeOfVariable: 0
@@ -44,7 +35,38 @@ MonoBehaviour:
       - 0
       - 0
       - 0
-    StringIVs: []
+    - Name: MatchInitial
+      TypeOfVariable: 0
+      DataType: 1
+      MixingTypeOfVariable: 0
+      Block: 0
+      Values:
+      - 0.1
+      Probabilities:
+      - 0
+    StringIVs:
+    - Name: Space
+      TypeOfVariable: 0
+      DataType: 2
+      MixingTypeOfVariable: 0
+      Block: 0
+      Values:
+      - Visual
+      - Pictorial
+      Probabilities:
+      - 0
+      - 0
+    - Name: Task
+      TypeOfVariable: 0
+      DataType: 2
+      MixingTypeOfVariable: 0
+      Block: 0
+      Values:
+      - Grasp
+      - Match
+      Probabilities:
+      - 0
+      - 0
     BoolIVs: []
     GameObjectIVs: []
     Vector3IVs: []
@@ -52,6 +74,21 @@ MonoBehaviour:
     IntDVs: []
     FloatDVs:
     - Name: RT
+      TypeOfVariable: 1
+      DataType: 1
+      Value: 0
+      DefaultValue: -999
+    - Name: MatchFinal
+      TypeOfVariable: 1
+      DataType: 1
+      Value: 0
+      DefaultValue: -999
+    - Name: Finger1Position
+      TypeOfVariable: 1
+      DataType: 1
+      Value: 0
+      DefaultValue: -999
+    - Name: Finger2Position
       TypeOfVariable: 1
       DataType: 1
       Value: 0
