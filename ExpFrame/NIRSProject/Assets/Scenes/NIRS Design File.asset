@@ -23,7 +23,7 @@ MonoBehaviour:
     - Name: Size
       TypeOfVariable: 0
       DataType: 1
-      MixingTypeOfVariable: 0
+      MixingTypeOfVariable: 2
       Block: 0
       Values:
       - 0.1
@@ -34,7 +34,7 @@ MonoBehaviour:
       - 0
       - 0
       - 0
-      - 0
+      - 1
     - Name: MatchInitial
       TypeOfVariable: 0
       DataType: 1
