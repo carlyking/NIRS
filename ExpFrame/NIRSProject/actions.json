@@ -13,7 +13,7 @@
       "type": "boolean"
     },
     {
-      "name": "/actions/default/in/GrabGrip",
+      "name": "/actions/default/in/Grab",
       "type": "boolean"
     },
     {
@@ -39,6 +39,18 @@
       "name": "/actions/default/in/HeadsetOnHead",
       "type": "boolean",
       "requirement": "optional"
+    },
+    {
+      "name": "/actions/default/in/TouchpadTouch",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/ClickLarger",
+      "type": "vector1"
+    },
+    {
+      "name": "/actions/default/in/ClickSmaller",
+      "type": "vector1"
     },
     {
       "name": "/actions/default/out/Haptic",
@@ -90,6 +102,10 @@
     {
       "name": "/actions/mixedreality",
       "usage": "single"
+    },
+    {
+      "name": "/actions/NewSet",
+      "usage": "single"
     }
   ],
   "default_bindings": [
@@ -133,7 +149,6 @@
   "localization": [
     {
       "language_tag": "en_US",
-      "/actions/default/in/GrabGrip": "Grab Grip",
       "/actions/default/in/GrabPinch": "Grab Pinch",
       "/actions/default/in/HeadsetOnHead": "Headset on head (proximity sensor)",
       "/actions/default/in/InteractUI": "Interact With UI",

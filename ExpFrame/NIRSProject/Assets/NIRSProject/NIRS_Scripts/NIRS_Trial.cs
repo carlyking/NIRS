@@ -15,8 +15,10 @@ namespace Scenes {
         protected override IEnumerator Pre() {
             config = (NIRSExp_ConfigOptions)Experiment.ConfigOptions;
             Cube = config.Cube;
-            float size = (float)Data["Size"];
-            Cube.transform.localScale = new Vector3(size, size, size);
+            float length = (float)Data["Length"];
+            float width = (float)Data["Width"];
+            float height = (float)Data["Height"];
+            Cube.transform.localScale = new Vector3(x:length, y:width, z:height);
             yield return null; 
         }
 

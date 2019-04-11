@@ -93,9 +93,12 @@
     <Compile Include="Assets\BML_Utilities\SnapToOtherObject.cs" />
     <Compile Include="Assets\BML_Utilities\StringExtension.cs" />
     <Compile Include="Assets\BML_Utilities\TransformExtension.cs" />
-    <Compile Include="Assets\Scenes\NIRS_Experiment.cs" />
-    <Compile Include="Assets\Scenes\NIRS_Trial.cs" />
-    <Compile Include="Assets\Scenes\NIRSExp_ConfigOptions.cs" />
+    <Compile Include="Assets\NIRSProject\NIRS_Scripts\ActionsTest.cs" />
+    <Compile Include="Assets\NIRSProject\NIRS_Scripts\Controller.cs" />
+    <Compile Include="Assets\NIRSProject\NIRS_Scripts\NIRS_Experiment.cs" />
+    <Compile Include="Assets\NIRSProject\NIRS_Scripts\NIRS_Trial.cs" />
+    <Compile Include="Assets\NIRSProject\NIRS_Scripts\NIRSExp_ConfigOptions.cs" />
+    <Compile Include="Assets\NIRSProject\NIRS_Scripts\NIRSViveInput.cs" />
     <None Include="Assets\BML_ExperimentToolkit\Data\BML_session_log.txt" />
     <Reference Include="Unity.ProGrids">
       <HintPath>C:/Users/BioMotion/Documents/Carly/Unity/NIRS Project/NIRS/ExpFrame/NIRSProject/Library/ScriptAssemblies/Unity.ProGrids.dll</HintPath>
