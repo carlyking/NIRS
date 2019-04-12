@@ -67,7 +67,20 @@
          ]
       },
       "/actions/default" : {
-         "chords" : [],
+         "chords" : [
+            {
+               "inputs" : [
+                  [ "/user/hand/right/input/trackpad", "click" ]
+               ],
+               "output" : "/actions/default/in/smaller"
+            },
+            {
+               "inputs" : [
+                  [ "/user/hand/right/input/trackpad", "click" ]
+               ],
+               "output" : "/actions/default/in/larger"
+            }
+         ],
          "haptics" : [
             {
                "output" : "/actions/default/out/haptic",
@@ -119,32 +132,8 @@
             },
             {
                "inputs" : {
-                  "value" : {
-                     "output" : "/actions/default/in/clicklarger"
-                  }
-               },
-               "mode" : "scalar_constant",
-               "parameters" : {
-                  "on/x" : "0.1"
-               },
-               "path" : "/user/hand/left/input/application_menu"
-            },
-            {
-               "inputs" : {
-                  "value" : {
-                     "output" : "/actions/default/in/clicklarger"
-                  }
-               },
-               "mode" : "scalar_constant",
-               "parameters" : {
-                  "on/x" : "0.1"
-               },
-               "path" : "/user/hand/right/input/application_menu"
-            },
-            {
-               "inputs" : {
                   "click" : {
-                     "output" : "/actions/default/in/grab"
+                     "output" : "/actions/default/in/larger"
                   }
                },
                "mode" : "button",
@@ -153,11 +142,29 @@
             {
                "inputs" : {
                   "click" : {
-                     "output" : "/actions/default/in/grab"
+                     "output" : "/actions/default/in/larger"
                   }
                },
                "mode" : "button",
                "path" : "/user/hand/right/input/trigger"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/default/in/smaller"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/left/input/application_menu"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/default/in/smaller"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/right/input/application_menu"
             }
          ]
       },

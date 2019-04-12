@@ -1,6 +1,6 @@
 /target:library
 /nowarn:0169
-/out:Temp/Assembly-CSharp.dll
+/out:Temp/SteamVR_Actions.dll
 /debug:portable
 /optimize-
 /nostdlib+
@@ -68,21 +68,21 @@
 /reference:"C:\Program Files\Unity\Hub\Editor\2018.3.0f2\Editor\Data\Managed/UnityEngine/UnityEngine.XRModule.dll"
 /reference:"C:\Program Files\Unity\Hub\Editor\2018.3.0f2\Editor\Data\Managed/UnityEditor.dll"
 /reference:"C:\Program Files\Unity\Hub\Editor\2018.3.0f2\Editor\Data\Managed/Unity.Locator.dll"
-/reference:Library/ScriptAssemblies/Unity.ProGrids.dll
-/reference:Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll
-/reference:Library/ScriptAssemblies/Unity.ProGrids.Editor.dll
-/reference:Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll
-/reference:Library/ScriptAssemblies/SteamVR_Actions.dll
-/reference:Library/ScriptAssemblies/SteamVR_Input_Editor.dll
-/reference:Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll
-/reference:Library/ScriptAssemblies/SteamVR_Editor.dll
 /reference:Library/ScriptAssemblies/SteamVR.dll
-/reference:Library/ScriptAssemblies/SteamVR_Windows_EditorHelper.dll
 /reference:"C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll"
 /reference:"C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/UnityExtensions/Unity/Timeline/RuntimeEditor/UnityEngine.Timeline.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/UnityExtensions/Unity/Timeline/Editor/UnityEditor.Timeline.dll"
 /reference:"C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/Editor/UnityEditor.GoogleAudioSpatializer.dll"
 /reference:"C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/UnityExtensions/Unity/UnityGoogleAudioSpatializer/RuntimeEditor/UnityEngine.GoogleAudioSpatializer.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/Editor/UnityEditor.SpatialTracking.dll"
 /reference:"C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/Managed/UnityEditor.Graphs.dll"
+/reference:"C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll"
+/reference:"C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll"
 /reference:Assets/SteamVR/Input/Plugins/JSON.NET/Valve.Newtonsoft.Json.dll
 /reference:"C:\Program Files\Unity\Hub\Editor\2018.3.0f2\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll"
 /reference:"C:\Program Files\Unity\Hub\Editor\2018.3.0f2\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard\Microsoft.Win32.Primitives.dll"
@@ -299,40 +299,11 @@
 /define:ENABLE_VSTU
 /define:CSHARP_7_OR_LATER
 /define:CSHARP_7_3_OR_NEWER
-Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\Block.cs
-Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\BlockTable.cs
-Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\ColumnNames.cs
-Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\ConfigDesignFile.cs
-Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\ConfigFileCreation.cs
-Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\ConfigOptions.cs
-Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\Experiment.cs
-Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\ExperimentDesign.cs
-Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\InvalidExperimentDesignException.cs
-Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\Session.cs
-Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\SimpleExperimentParts\SimpleBlock.cs
-Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\SimpleExperimentParts\SimpleExperiment.cs
-Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\SimpleExperimentParts\SimpleTrial.cs
-Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\Trial.cs
-Assets\BML_ExperimentToolkit\Scripts\ExperimentParts\TrialTable.cs
-Assets\BML_ExperimentToolkit\Scripts\Managers\BlockSequenceRunner.cs
-Assets\BML_ExperimentToolkit\Scripts\Managers\ExperimentEvents.cs
-Assets\BML_ExperimentToolkit\Scripts\Managers\OutputManager.cs
-Assets\BML_ExperimentToolkit\Scripts\Managers\SessionLogger.cs
-Assets\BML_ExperimentToolkit\Scripts\Managers\TrialSequenceRunner.cs
-Assets\BML_ExperimentToolkit\Scripts\VariableSystem\Variable.cs
-Assets\BML_ExperimentToolkit\Scripts\VariableSystem\VariableDrawer.cs
-Assets\BML_ExperimentToolkit\Scripts\VariableSystem\VariableFactory.cs
-Assets\BML_ExperimentToolkit\Scripts\VariableSystem\VariableFactoryDrawer.cs
-Assets\BML_Utilities\CameraAspect.cs
-Assets\BML_Utilities\DataTableExtension.cs
-Assets\BML_Utilities\Delimiter.cs
-Assets\BML_Utilities\IntExtension.cs
-Assets\BML_Utilities\ListExtension.cs
-Assets\BML_Utilities\LowestCommonFunctions.cs
-Assets\BML_Utilities\SnapToOtherObject.cs
-Assets\BML_Utilities\StringExtension.cs
-Assets\BML_Utilities\TransformExtension.cs
-Assets\NIRSProject\NIRS_Scripts\NIRS_Experiment.cs
-Assets\NIRSProject\NIRS_Scripts\NIRS_Trial.cs
-Assets\NIRSProject\NIRS_Scripts\NIRSExp_ConfigOptions.cs
-Assets\NIRSProject\NIRS_Scripts\TestActions.cs
+Assets\SteamVR_Input\ActionSetClasses\SteamVR_Input_ActionSet_buggy.cs
+Assets\SteamVR_Input\ActionSetClasses\SteamVR_Input_ActionSet_default.cs
+Assets\SteamVR_Input\ActionSetClasses\SteamVR_Input_ActionSet_mixedreality.cs
+Assets\SteamVR_Input\ActionSetClasses\SteamVR_Input_ActionSet_NewSet.cs
+Assets\SteamVR_Input\ActionSetClasses\SteamVR_Input_ActionSet_platformer.cs
+Assets\SteamVR_Input\SteamVR_Input_Actions.cs
+Assets\SteamVR_Input\SteamVR_Input_ActionSets.cs
+Assets\SteamVR_Input\SteamVR_Input_Initialization.cs

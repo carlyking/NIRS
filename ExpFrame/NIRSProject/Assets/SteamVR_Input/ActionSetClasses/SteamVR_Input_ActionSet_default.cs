@@ -97,19 +97,19 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Single ClickLarger
+        public virtual SteamVR_Action_Boolean Larger
         {
             get
             {
-                return SteamVR_Actions.default_ClickLarger;
+                return SteamVR_Actions.default_Larger;
             }
         }
         
-        public virtual SteamVR_Action_Single ClickSmaller
+        public virtual SteamVR_Action_Boolean Smaller
         {
             get
             {
-                return SteamVR_Actions.default_ClickSmaller;
+                return SteamVR_Actions.default_Smaller;
             }
         }
         

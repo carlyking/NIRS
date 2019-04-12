@@ -6,6 +6,7 @@
 /nostdlib+
 /preferreduilang:en-US
 /langversion:latest
+/reference:Library/ScriptAssemblies/SteamVR_Actions.dll
 /reference:"C:\Program Files\Unity\Hub\Editor\2018.3.0f2\Editor\Data\Managed/UnityEngine/UnityEngine.dll"
 /reference:"C:\Program Files\Unity\Hub\Editor\2018.3.0f2\Editor\Data\Managed/UnityEngine/UnityEngine.AIModule.dll"
 /reference:"C:\Program Files\Unity\Hub\Editor\2018.3.0f2\Editor\Data\Managed/UnityEngine/UnityEngine.ARModule.dll"
@@ -72,7 +73,6 @@
 /reference:Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll
 /reference:Library/ScriptAssemblies/Unity.ProGrids.Editor.dll
 /reference:Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll
-/reference:Library/ScriptAssemblies/SteamVR_Actions.dll
 /reference:Library/ScriptAssemblies/SteamVR_Input_Editor.dll
 /reference:Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll
 /reference:Library/ScriptAssemblies/SteamVR_Editor.dll
@@ -332,7 +332,7 @@ Assets\BML_Utilities\LowestCommonFunctions.cs
 Assets\BML_Utilities\SnapToOtherObject.cs
 Assets\BML_Utilities\StringExtension.cs
 Assets\BML_Utilities\TransformExtension.cs
-Assets\NIRSProject\NIRS_Scripts\ControllerReferences.cs
+Assets\NIRSProject\NIRS_Scripts\ControllerBindings.cs
 Assets\NIRSProject\NIRS_Scripts\NIRS_Experiment.cs
 Assets\NIRSProject\NIRS_Scripts\NIRS_Trial.cs
 Assets\NIRSProject\NIRS_Scripts\NIRSExp_ConfigOptions.cs

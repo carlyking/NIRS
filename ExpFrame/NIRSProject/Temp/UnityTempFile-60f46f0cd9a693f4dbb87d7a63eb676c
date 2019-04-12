@@ -7,6 +7,7 @@
 /preferreduilang:en-US
 /langversion:latest
 /reference:Library/ScriptAssemblies/Assembly-CSharp.dll
+/reference:Library/ScriptAssemblies/SteamVR_Actions.dll
 /reference:"C:\Program Files\Unity\Hub\Editor\2018.3.0f2\Editor\Data\Managed/UnityEngine/UnityEngine.dll"
 /reference:"C:\Program Files\Unity\Hub\Editor\2018.3.0f2\Editor\Data\Managed/UnityEngine/UnityEngine.AIModule.dll"
 /reference:"C:\Program Files\Unity\Hub\Editor\2018.3.0f2\Editor\Data\Managed/UnityEngine/UnityEngine.ARModule.dll"
@@ -74,7 +75,6 @@
 /reference:Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll
 /reference:Library/ScriptAssemblies/Unity.ProGrids.Editor.dll
 /reference:Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll
-/reference:Library/ScriptAssemblies/SteamVR_Actions.dll
 /reference:Library/ScriptAssemblies/SteamVR_Input_Editor.dll
 /reference:Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll
 /reference:Library/ScriptAssemblies/SteamVR_Editor.dll

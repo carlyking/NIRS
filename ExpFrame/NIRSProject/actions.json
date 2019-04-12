@@ -45,12 +45,12 @@
       "type": "boolean"
     },
     {
-      "name": "/actions/default/in/ClickLarger",
-      "type": "vector1"
+      "name": "/actions/default/in/Larger",
+      "type": "boolean"
     },
     {
-      "name": "/actions/default/in/ClickSmaller",
-      "type": "vector1"
+      "name": "/actions/default/in/Smaller",
+      "type": "boolean"
     },
     {
       "name": "/actions/default/out/Haptic",
