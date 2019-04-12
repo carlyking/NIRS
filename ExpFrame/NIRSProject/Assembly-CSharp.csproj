@@ -94,6 +94,7 @@
     <Compile Include="Assets\BML_Utilities\StringExtension.cs" />
     <Compile Include="Assets\BML_Utilities\TransformExtension.cs" />
     <Compile Include="Assets\NIRSProject\NIRS_Scripts\ControllerBindings.cs" />
+    <Compile Include="Assets\NIRSProject\NIRS_Scripts\Cube2Size.cs" />
     <Compile Include="Assets\NIRSProject\NIRS_Scripts\NIRS_Experiment.cs" />
     <Compile Include="Assets\NIRSProject\NIRS_Scripts\NIRS_Trial.cs" />
     <Compile Include="Assets\NIRSProject\NIRS_Scripts\NIRSExp_ConfigOptions.cs" />
