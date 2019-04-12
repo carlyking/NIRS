@@ -35,7 +35,7 @@ namespace Valve.VR
         
         private static SteamVR_Action_Boolean p_default_HeadsetOnHead;
         
-        private static SteamVR_Action_Boolean p_default_TouchpadTouch;
+        private static SteamVR_Action_Boolean p_default_Hold;
         
         private static SteamVR_Action_Single p_default_ClickLarger;
         
@@ -129,11 +129,11 @@ namespace Valve.VR
             }
         }
         
-        public static SteamVR_Action_Boolean default_TouchpadTouch
+        public static SteamVR_Action_Boolean default_Hold
         {
             get
             {
-                return SteamVR_Actions.p_default_TouchpadTouch.GetCopy<SteamVR_Action_Boolean>();
+                return SteamVR_Actions.p_default_Hold.GetCopy<SteamVR_Action_Boolean>();
             }
         }
         
@@ -229,7 +229,7 @@ namespace Valve.VR
                     SteamVR_Actions.default_SkeletonRightHand,
                     SteamVR_Actions.default_Squeeze,
                     SteamVR_Actions.default_HeadsetOnHead,
-                    SteamVR_Actions.default_TouchpadTouch,
+                    SteamVR_Actions.default_Hold,
                     SteamVR_Actions.default_ClickLarger,
                     SteamVR_Actions.default_ClickSmaller,
                     SteamVR_Actions.default_Haptic,
@@ -250,7 +250,7 @@ namespace Valve.VR
                     SteamVR_Actions.default_SkeletonRightHand,
                     SteamVR_Actions.default_Squeeze,
                     SteamVR_Actions.default_HeadsetOnHead,
-                    SteamVR_Actions.default_TouchpadTouch,
+                    SteamVR_Actions.default_Hold,
                     SteamVR_Actions.default_ClickLarger,
                     SteamVR_Actions.default_ClickSmaller,
                     SteamVR_Actions.platformer_Move,
@@ -273,7 +273,7 @@ namespace Valve.VR
                     SteamVR_Actions.default_GrabPinch,
                     SteamVR_Actions.default_Grab,
                     SteamVR_Actions.default_HeadsetOnHead,
-                    SteamVR_Actions.default_TouchpadTouch,
+                    SteamVR_Actions.default_Hold,
                     SteamVR_Actions.platformer_Jump,
                     SteamVR_Actions.buggy_Brake,
                     SteamVR_Actions.buggy_Reset};
@@ -296,7 +296,7 @@ namespace Valve.VR
                     SteamVR_Actions.default_Grab,
                     SteamVR_Actions.default_Squeeze,
                     SteamVR_Actions.default_HeadsetOnHead,
-                    SteamVR_Actions.default_TouchpadTouch,
+                    SteamVR_Actions.default_Hold,
                     SteamVR_Actions.default_ClickLarger,
                     SteamVR_Actions.default_ClickSmaller,
                     SteamVR_Actions.platformer_Move,
@@ -318,7 +318,7 @@ namespace Valve.VR
             SteamVR_Actions.p_default_SkeletonRightHand = ((SteamVR_Action_Skeleton)(SteamVR_Action.Create<SteamVR_Action_Skeleton>("/actions/default/in/SkeletonRightHand")));
             SteamVR_Actions.p_default_Squeeze = ((SteamVR_Action_Single)(SteamVR_Action.Create<SteamVR_Action_Single>("/actions/default/in/Squeeze")));
             SteamVR_Actions.p_default_HeadsetOnHead = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/HeadsetOnHead")));
-            SteamVR_Actions.p_default_TouchpadTouch = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/TouchpadTouch")));
+            SteamVR_Actions.p_default_Hold = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/Hold")));
             SteamVR_Actions.p_default_ClickLarger = ((SteamVR_Action_Single)(SteamVR_Action.Create<SteamVR_Action_Single>("/actions/default/in/ClickLarger")));
             SteamVR_Actions.p_default_ClickSmaller = ((SteamVR_Action_Single)(SteamVR_Action.Create<SteamVR_Action_Single>("/actions/default/in/ClickSmaller")));
             SteamVR_Actions.p_default_Haptic = ((SteamVR_Action_Vibration)(SteamVR_Action.Create<SteamVR_Action_Vibration>("/actions/default/out/Haptic")));

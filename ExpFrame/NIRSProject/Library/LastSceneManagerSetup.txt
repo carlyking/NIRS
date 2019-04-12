@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Pictorial1Cube-Initial.unity
+- path: Assets/NIRSProject/NIRSExperiment.unity
   isLoaded: 1
   isActive: 1
