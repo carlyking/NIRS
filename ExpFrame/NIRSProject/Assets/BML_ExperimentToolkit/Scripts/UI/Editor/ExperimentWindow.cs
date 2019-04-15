@@ -4,15 +4,16 @@ using System.Data;
 using System.IO;
 using BML_ExperimentToolkit.Scripts.ExperimentParts;
 using BML_ExperimentToolkit.Scripts.Managers;
+using BML_ExperimentToolkit.Scripts.VariableSystem;
+using BML_ExperimentToolkit.Scripts.VariableSystem.VariableTypes;
 using BML_Utilities;
+using BML_Utilities.Extensions;
 using UnityEditor;
 using UnityEngine;
 
 namespace BML_ExperimentToolkit.Scripts.UI.Editor {
 
     public class ExperimentWindow : EditorWindow {
-
-        public static ExperimentWindow Instance { get; private set; }
 
         static readonly GUILayoutOption CompleteIndicatorWidth = GUILayout.Width(20);
         static readonly GUILayoutOption JumpToButtonWidth = GUILayout.Width(40);
@@ -25,27 +26,31 @@ namespace BML_ExperimentToolkit.Scripts.UI.Editor {
         int currentBlockIndex = -1;
         int currentTrialIndex = -1;
         bool initialized;
-        Experiment experiment;
+        ExperimentRunner runner;
         bool autoName;
-
+        Vector2 scrollPos = Vector2.zero;
         Session session;
 
         // Add menu item to open this window
-        [MenuItem("BML/Experiment Runner Window")]
+        [MenuItem(MenuNames.BmlMainMenu + "Runner Runner Window")]
         public static void ShowWindow() {
             //Show existing window instance. If one doesn't exist, make one.
-            GetWindow(typeof(ExperimentWindow), false, "Experiment Runner Window");
+            GetWindow(typeof(ExperimentWindow), false, "Runner Runner Window");
         }
 
+        static ExperimentWindow instance;
+        public static bool IsOpen => instance != null;
+
         void OnEnable() {
+            instance = this;
             //add listeners for events
             ExperimentEvents.OnInitExperiment += InitWindow;
             ExperimentEvents.OnBlockUpdated += BlockCompleted;
             ExperimentEvents.OnTrialUpdated += TrialCompleted;
             ExperimentEvents.OnExperimentStarted += ExperimentStarted;
             ExperimentEvents.OnTrialHasStarted += TrialStarted;
+            ExperimentEvents.OnCheckMainWindowIsOpen += CheckWindowOpen;
 
-            Instance = this;
         }
         
         void OnDisable() {
@@ -55,8 +60,9 @@ namespace BML_ExperimentToolkit.Scripts.UI.Editor {
             ExperimentEvents.OnTrialUpdated -= TrialCompleted;
             ExperimentEvents.OnExperimentStarted -= ExperimentStarted;
             ExperimentEvents.OnTrialHasStarted -= TrialStarted;
+            ExperimentEvents.OnCheckMainWindowIsOpen -= CheckWindowOpen;
 
-            Instance = null;
+
         }
 
         void TrialStarted(Trial trial, int index) {
@@ -74,13 +80,21 @@ namespace BML_ExperimentToolkit.Scripts.UI.Editor {
             Repaint();
         }
 
-        void InitWindow(Experiment experimentToInit) {
+        void InitWindow(ExperimentRunner runnerToInit) {
             session = Session.LoadSessionData();
             currentBlockIndex = -1;
             currentTrialIndex = -1;
-            experiment = experimentToInit;
+            runner = runnerToInit;
             initialized = true;
             Repaint();
+
+            runnerToInit.FinishedInitialization = true;
+        }
+
+        static void CheckWindowOpen(ExperimentRunner runnerToInit) {
+            if (IsOpen) {
+                runnerToInit.WindowOpen = true;
+            }
         }
 
 
@@ -95,51 +109,70 @@ namespace BML_ExperimentToolkit.Scripts.UI.Editor {
         }
 
 
-        Vector2 scrollPosition;
 
         void OnGUI() {
-
+            
+            scrollPos = EditorGUILayout.BeginScrollView(scrollPos, 
+                false, 
+                false, 
+                GUILayout.ExpandHeight(true));
             EditorGUILayout.BeginVertical();
 
             //Check if in play mode
             if (!Application.isPlaying) {
                 EditorGUILayout
-                    .HelpBox("Cannot display experiment design when Unity is not in PlayMode, Press play in Editor to start experimentToInit Setup",
+                    .HelpBox("Cannot display Runner design when Unity is not in PlayMode, " +
+                             "\n\nPress play in Editor to Set up the Runner",
                              MessageType.Error);
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.EndScrollView();
                 return;
             }
 
             //Ensure config file initialized properly.
             if (!initialized) {
-                EditorGUILayout.HelpBox("ConfigDesignFile not properly initialized. " +
-                                        "\nMake sure you have created a config file from the menu and populated it with variables" +
-                                        "\nAlso make sure the config file is dragged into the Experiment GameObject'd inspector in your scene.",
+                EditorGUILayout.HelpBox("ConfigFile not properly initialized. " +
+                                        "\n\nMake sure you have created a config file from the menu and populated it with variables" +
+                                        "\n\nAlso make sure the config file is dragged into the Runner GameObject inspector in your scene.",
                                         MessageType.Error);
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.EndScrollView();
                 return;
             }
 
-            //Session Settings
-            if (!ShowSessionSettings()) return;
+            //Session PromptSettings
+            if (!ShowSessionSettings()) {
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.EndScrollView();
+                return;
+            }
 
             //Block Order
-            if (!ShowBlockOrderSettings()) return;
-            
-            
-            //Experiment controls
+            if (!ShowBlockOrderSettings()) {
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.EndScrollView();
+                return;
+            }
+
+
+            //Runner controls
             ShowExperimentControls();
-            
+
 
             //Blocks
-            if (experiment.Design.HasBlocks) {
-                ShowBlockTable(experiment.Design.OrderedBlockTable);
+            if (runner.Design.HasBlocks) {
+                ShowBlockTable(runner.Design.OrderedBlockTable);
             }
             
-            //Trials
+
+            //NumberOfTrials
             ShowTrialTables();
             
 
 
             EditorGUILayout.Space();
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndScrollView();
         }
 
 
@@ -169,12 +202,13 @@ namespace BML_ExperimentToolkit.Scripts.UI.Editor {
             session.ParticipantId = EditorGUILayout.TextField(session.ParticipantId);
             EditorGUILayout.EndHorizontal();
 
+            ShowParticipantVariables();
+
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Output File Path:", LabelWidth);
             if (GUILayout.Button("Choose Folder", LabelWidth)) {
                 session.OutputFolder = EditorUtility.OpenFolderPanel("Choose Output Folder", "", "");
             }
-
             GUILayout.Box(session.OutputFolder);
             EditorGUILayout.EndHorizontal();
 
@@ -191,8 +225,8 @@ namespace BML_ExperimentToolkit.Scripts.UI.Editor {
                 EditorGUILayout.LabelField("Name: ", SmallLabelWidth);
                 session.OutputFileName = EditorGUILayout.TextField(session.OutputFileName);
             }
-
             EditorGUILayout.EndHorizontal();
+
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Full output path:", LabelWidth);
             GUILayout.Box(session.OutputFullPath);
@@ -208,6 +242,72 @@ namespace BML_ExperimentToolkit.Scripts.UI.Editor {
             return true;
         }
 
+        void ShowParticipantVariables() {
+
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            
+
+
+            EditorGUILayout.LabelField("Fill In Participant Variables:", EditorStyles.boldLabel);
+            List<Variable> variables = runner.ConfigFile.Factory.AllVariables;
+
+
+            foreach (Variable variable in variables) {
+                
+                
+
+                if (variable.TypeOfVariable != VariableType.Participant) continue;
+
+                ParticipantVariable participantVariable = (ParticipantVariable) variable;
+
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField(participantVariable.Name + ":", LabelWidth);
+                if (participantVariable.ValuesAreConstrained) {
+                    
+                    string[] possibleValues = participantVariable.PossibleValuesStringArray;
+
+                    
+                    participantVariable.SelectedValue =
+                            EditorGUILayout.Popup(participantVariable.SelectedValue, possibleValues);
+
+                }
+                else {
+                    
+                    switch (participantVariable.DataType) {
+                        case SupportedDataTypes.Int:
+                            ParticipantVariableInt intVariable = (ParticipantVariableInt) participantVariable;
+                            intVariable.Value = EditorGUILayout.IntField(intVariable.Value);
+                            break;
+                        case SupportedDataTypes.Float:
+                            ParticipantVariableFloat floatVariable = (ParticipantVariableFloat)participantVariable;
+                            floatVariable.Value = EditorGUILayout.FloatField(floatVariable.Value);
+                            break;
+                        case SupportedDataTypes.String:
+                            ParticipantVariableString stringVariable = (ParticipantVariableString)participantVariable;
+                            stringVariable.Value = EditorGUILayout.TextField(stringVariable.Value);
+                            break;
+                        case SupportedDataTypes.Bool:
+                            ParticipantVariableBool boolVariable = (ParticipantVariableBool)participantVariable;
+                            boolVariable.Value = EditorGUILayout.Toggle(boolVariable.Value);
+                            break;
+                        case SupportedDataTypes.GameObject:
+                        case SupportedDataTypes.Vector3:
+                        case SupportedDataTypes.CustomDataType:
+                        case SupportedDataTypes.ChooseType:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+
+                EditorGUILayout.EndHorizontal();
+            }
+
+            
+            EditorGUILayout.EndVertical();
+        }
+
+
         /// <summary>
         /// Choose block order
         /// </summary>
@@ -215,8 +315,8 @@ namespace BML_ExperimentToolkit.Scripts.UI.Editor {
         bool ShowBlockOrderSettings() {
             if (!session.BlockChosen) {
 
-                if (!experiment.Design.HasBlocks) {
-                    Debug.Log($"Experiment has no blocks");
+                if (!runner.Design.HasBlocks) {
+                    Debug.Log($"Runner has no blocks");
                     session.OrderChosenIndex = 0;
                     session.BlockChosen = true;
                     return true;
@@ -224,12 +324,12 @@ namespace BML_ExperimentToolkit.Scripts.UI.Editor {
 
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                 EditorGUILayout.Space();
-                EditorGUILayout.LabelField("Block Order Settings:", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Block Order PromptSettings:", EditorStyles.boldLabel);
 
-                List<string> blockPermutations = experiment.Design.BlockPermutationsStrings;
+                List<string> blockPermutations = runner.Design.BlockPermutationsStrings;
                 
                 session.OrderChosenIndex = EditorGUILayout.Popup(session.OrderChosenIndex, blockPermutations.ToArray());
-                DataTable selectedOrderTable = experiment.Design.GetBlockOrderTable(session.OrderChosenIndex);
+                DataTable selectedOrderTable = runner.Design.GetBlockOrderTable(session.OrderChosenIndex);
                 
                 EditorGUILayout.Space();
                 EditorGUILayout.LabelField("Chosen block order:");
@@ -248,36 +348,36 @@ namespace BML_ExperimentToolkit.Scripts.UI.Editor {
         }
 
         /// <summary>
-        /// Display the experiment controls
+        /// Display the Runner controls
         /// </summary>
         void ShowExperimentControls() {
 
             EditorGUILayout.Space();
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            EditorGUILayout.LabelField("Experiment Controls:", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Runner Controls:", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
 
-            if (!experiment.Running && !experiment.Ended) {
-                if (GUILayout.Button("Start Experiment")) {
+            if (!runner.Running && !runner.Ended) {
+                if (GUILayout.Button("Start Runner")) {
                     ExperimentEvents.StartExperiment(session);
                 }
 
             }
             else {
                 EditorGUILayout.BeginHorizontal();
-                string runningText = experiment.Running ? "Running" : "Not Running";
-                EditorGUILayout.LabelField($"Experiment {runningText}.");
-                int currentTrial = experiment.Design.BlockCount * currentBlockIndex + currentTrialIndex + 1;
-                if (currentTrial > experiment.Design.TotalTrials) currentTrial = experiment.Design.TotalTrials;
+                string runningText = runner.Running ? "Running" : "Not Running";
+                EditorGUILayout.LabelField($"Runner {runningText}.");
+                int currentTrial = runner.Design.BlockCount * currentBlockIndex + currentTrialIndex + 1;
+                if (currentTrial > runner.Design.TotalTrials) currentTrial = runner.Design.TotalTrials;
                 EditorGUILayout.LabelField("Running Trial: " +
                                            $"{currentTrial}" +
                                            "/" +
-                                           $"{experiment.Design.TotalTrials} ");
+                                           $"{runner.Design.TotalTrials} ");
                 EditorGUILayout.EndHorizontal();
             }
 
-            string endedText = !experiment.Ended ? "Not Finished" : "Ended";
-            EditorGUILayout.LabelField($"Experiment is {endedText}.");
+            string endedText = !runner.Ended ? "Not Finished" : "Ended";
+            EditorGUILayout.LabelField($"Runner is {endedText}.");
 
             EditorGUILayout.Space();
             EditorGUI.indentLevel--;
@@ -285,14 +385,13 @@ namespace BML_ExperimentToolkit.Scripts.UI.Editor {
         }
 
         /// <summary>
-        /// Displays table for the blocks of the experiment
+        /// Displays table for the blocks of the Runner
         /// </summary>
         /// <param name="blockTable"></param>
         /// <param name="orderSelected"></param>
         void ShowBlockTable(DataTable blockTable, bool orderSelected = true) {
-
-
-            if (!experiment.Design.HasBlocks) return;
+            
+            if (!runner.Design.HasBlocks) return;
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.Space();
@@ -319,7 +418,7 @@ namespace BML_ExperimentToolkit.Scripts.UI.Editor {
 
                 if (orderSelected) {
 
-                    Block block = experiment.Design.Blocks[indexOfBlock];
+                    Block block = runner.Design.Blocks[indexOfBlock];
                     Color color = block.Complete ? Color.green : Color.red;
                     EditorGUILayout.ColorField(GUIContent.none, color, false, false, false, CompleteIndicatorWidth);
                 }
@@ -342,10 +441,10 @@ namespace BML_ExperimentToolkit.Scripts.UI.Editor {
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Trials:", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("NumberOfTrials:", EditorStyles.boldLabel);
 
-            foreach (var block in experiment.Design.Blocks) {
-                int blockIndex = experiment.Design.Blocks.IndexOf(block);
+            foreach (Block block in runner.Design.Blocks) {
+                int blockIndex = runner.Design.Blocks.IndexOf(block);
 
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
@@ -360,12 +459,12 @@ namespace BML_ExperimentToolkit.Scripts.UI.Editor {
                 EditorGUILayout.LabelField("", RunningTrialIndicatorWidth);
                 EditorGUILayout.LabelField("", JumpToButtonWidth);
                 EditorGUILayout.LabelField("", CompleteIndicatorWidth);
-                EditorGUILayout.TextArea(block.trialTable.HeaderAsString());
+                EditorGUILayout.TextArea(block.TrialTable.HeaderAsString());
                 EditorGUILayout.EndHorizontal();
 
 
-                for (int indexOfRow = 0; indexOfRow < block.trialTable.Rows.Count; indexOfRow++) {
-                    DataRow trialRow = block.trialTable.Rows[indexOfRow];
+                for (int indexOfRow = 0; indexOfRow < block.TrialTable.Rows.Count; indexOfRow++) {
+                    DataRow trialRow = block.TrialTable.Rows[indexOfRow];
 
                     EditorGUILayout.BeginHorizontal();
 
@@ -402,6 +501,8 @@ namespace BML_ExperimentToolkit.Scripts.UI.Editor {
                 EditorGUILayout.EndVertical();
 
             }
+
+            EditorGUI.indentLevel--;
             EditorGUILayout.EndVertical();
         }
     }

@@ -61,6 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\BML_ExperimentToolkit\Scripts\UI\Editor\ExperimentWindow.cs" />
+    <Compile Include="Assets\BML_Utilities\Tests\Editor\IntExtensionTests.cs" />
+    <Compile Include="Assets\BML_Utilities\Tests\Editor\ListExtensionTests.cs" />
+    <Compile Include="Assets\BML_Utilities\Tests\Editor\StringExtensionTests.cs" />
     <Compile Include="Assets\BML_Utilities\Tests\Editor\TransformExtensionTests.cs" />
     <Reference Include="Unity.ProGrids">
       <HintPath>C:/Users/BioMotion/Documents/Carly/Unity/NIRS Project/NIRS/ExpFrame/NIRSProject/Library/ScriptAssemblies/Unity.ProGrids.dll</HintPath>

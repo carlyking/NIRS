@@ -1,12 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace MyNamespace {
-
-
-
-    public static class LowestCommonFunctions {
+﻿namespace BML_Utilities {
+    
+    public static class LowestCommon {
         public static int GreatestCommonFactor(int a, int b) {
             while (b != 0) {
                 int temp = b;
@@ -17,7 +11,7 @@ namespace MyNamespace {
             return a;
         }
 
-        public static int LowestCommonMultiple(int a, int b) {
+        public static int Multiple(int a, int b) {
             return (a / GreatestCommonFactor(a, b)) * b;
         }
     }

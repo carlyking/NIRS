@@ -16,8 +16,8 @@ MonoBehaviour:
   ShuffleDifferentlyForEachBlock: 0
   RepeatTrialBlock: 0
   Factory:
-    DataTypesToCreate: 1
-    VariableTypeToCreate: 0
+    DataTypesToCreate: 0
+    VariableTypeToCreate: 2
     IntIVs: []
     FloatIVs:
     - Name: Length
@@ -126,4 +126,12 @@ MonoBehaviour:
     GameObjectDVs: []
     Vector3DVs: []
     CustomDataTypeDVs: []
-  ColumnNames: {fileID: 0}
+    IntParticipantVariables: []
+    FloatParticipantVariables: []
+    StringParticipantVariables: []
+    BoolParticipantVariables: []
+    GameObjectParticipantVariables: []
+    Vector3ParticipantVariables: []
+    CustomDataParticipantVariables: []
+  ColumnNames: {fileID: 11400000, guid: b004757e12fd66b43828570a0f83b1db, type: 2}
+  ControlSettings: {fileID: 11400000, guid: 04359e47c0c847246b3b31397d86ffb9, type: 2}

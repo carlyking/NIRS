@@ -2,10 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace BML_Utilities {
+namespace BML_Utilities.Extensions {
 
     /// <summary>
     /// A collection of extensions that extend the System List class to add new functionality
@@ -97,7 +96,6 @@ namespace BML_Utilities {
         /// <returns></returns>
         public static int RandomIndex<T>(this IList<T> list) {
             int randomIndex = Random.Range(0, list.Count);
-            Debug.Log(randomIndex);
             return randomIndex;
         }
     }
@@ -130,7 +128,7 @@ namespace BML_Utilities {
             if (count == 1) yield return sequence;
             else {
                 for (int i = 0; i < count; i++) {
-                    foreach (var perm in Permutate(sequence, count - 1))
+                    foreach (IList perm in Permutate(sequence, count - 1))
                         yield return perm;
                     RotateRight(sequence, count);
                 }

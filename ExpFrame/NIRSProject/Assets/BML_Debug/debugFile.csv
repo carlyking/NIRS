@@ -1,9 +1,17 @@
-Block, TrialInBlock, Trial, hfgghjk, Size, RT, Completed, Attempts, Skipped
-0, 0, 0, 0, 0.1, -999, False, 0, False
-0, 1, 1, 0, 0.2, -999, False, 0, False
-0, 2, 2, 0, 0.3, -999, False, 0, False
-0, 3, 3, 0, 0.4, -999, False, 0, False
-0, 4, 4, 1, 0.1, -999, False, 0, False
-0, 5, 5, 1, 0.2, -999, False, 0, False
-0, 6, 6, 1, 0.3, -999, False, 0, False
-0, 7, 7, 1, 0.4, -999, False, 0, False
+Block, TrialInBlock, Trial, Length, Width, Height, Space, Task, Length2, RT, MatchLength, Finger1Position, Finger2Position, Completed, Attempts, Skipped, TrialTime
+0, 0, 0, 0.2, 0.1, 0.1, Visual, Grasp, 0.3, 5, 0.2, -999, -999, True, 1, False, 3.605949
+0, 1, 1, 0.2, 0.1, 0.1, Visual, Match, 0.2, 5, 0.4638651, -999, -999, True, 1, False, 13.89399
+0, 2, 2, 0.2, 0.1, 0.1, Pictorial, Grasp, 0.2, 5, 0.3957451, -999, -999, True, 1, False, 6.630112
+0, 3, 3, 0.2, 0.1, 0.1, Pictorial, Match, 0.1, 5, 0.5987137, -999, -999, True, 1, False, 3.932236
+0, 4, 4, 0.3, 0.1, 0.1, Visual, Grasp, 0.1, 5, 0.5202562, -999, -999, True, 1, False, 3.708939
+0, 5, 5, 0.3, 0.1, 0.1, Visual, Match, 0.5, -999, -999, -999, -999, False, 0, False, 0
+0, 6, 6, 0.3, 0.1, 0.1, Pictorial, Grasp, 0.6, -999, -999, -999, -999, False, 0, False, 0
+0, 7, 7, 0.3, 0.1, 0.1, Pictorial, Match, 0.4, -999, -999, -999, -999, False, 0, False, 0
+0, 8, 8, 0.4, 0.1, 0.1, Visual, Grasp, 0.2, -999, -999, -999, -999, False, 0, False, 0
+0, 9, 9, 0.4, 0.1, 0.1, Visual, Match, 0.5, -999, -999, -999, -999, False, 0, False, 0
+0, 10, 10, 0.4, 0.1, 0.1, Pictorial, Grasp, 0.3, -999, -999, -999, -999, False, 0, False, 0
+0, 11, 11, 0.4, 0.1, 0.1, Pictorial, Match, 0.2, -999, -999, -999, -999, False, 0, False, 0
+0, 12, 12, 0.5, 0.1, 0.1, Visual, Grasp, 0.6, -999, -999, -999, -999, False, 0, False, 0
+0, 13, 13, 0.5, 0.1, 0.1, Visual, Match, 0.5, -999, -999, -999, -999, False, 0, False, 0
+0, 14, 14, 0.5, 0.1, 0.1, Pictorial, Grasp, 0.3, -999, -999, -999, -999, False, 0, False, 0
+0, 15, 15, 0.5, 0.1, 0.1, Pictorial, Match, 0.4, -999, -999, -999, -999, False, 0, False, 0

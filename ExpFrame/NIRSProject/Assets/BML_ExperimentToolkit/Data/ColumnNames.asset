@@ -18,3 +18,5 @@ MonoBehaviour:
   Attempts: Attempts
   TrialIndex: TrialInBlock
   Completed: Completed
+  TrialTime: TrialTime
+  DefaultMissingValue: -999

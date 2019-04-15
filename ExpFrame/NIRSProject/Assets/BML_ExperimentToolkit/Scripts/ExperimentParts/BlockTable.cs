@@ -2,8 +2,8 @@
 using System.Data;
 using System.Text;
 using BML_ExperimentToolkit.Scripts.VariableSystem;
-using BML_Utilities;
-using UnityEngine;
+using BML_ExperimentToolkit.Scripts.VariableSystem.VariableTypes;
+using BML_Utilities.Extensions;
 
 namespace BML_ExperimentToolkit.Scripts.ExperimentParts {
 
@@ -11,24 +11,24 @@ namespace BML_ExperimentToolkit.Scripts.ExperimentParts {
 
         readonly DataTable baseBlockTable;
 
-        public BlockTable(List<Variable> allData) {
+        public BlockTable(List<Variable> allData, ExperimentDesign design) {
 
             //Get block Variables
             List<Variable> blockVariables = new List<Variable>();
             foreach (Variable datum in allData) {
                 if (datum.TypeOfVariable == VariableType.Independent) {
-                    IndependentVariable IvDatum = (IndependentVariable)datum;
-                    if (IvDatum.Block) {
-                        blockVariables.Add(IvDatum);
+                    IndependentVariable independentVariable = (IndependentVariable)datum;
+                    if (independentVariable.Block) {
+                        blockVariables.Add(independentVariable);
                     }
                 }
             }
 
-            baseBlockTable = ExperimentDesign.SortAndAddIVs(blockVariables, true);
+            baseBlockTable = design.SortAndAddIVs(blockVariables, true);
    
         }
 
-        public BlockTable(DataTable blockTable) {
+        private BlockTable(DataTable blockTable) {
             baseBlockTable = blockTable;
         }
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using BML_ExperimentToolkit.Scripts.ExperimentParts;
-using MyNamespace;
 using UnityEngine;
 
 namespace BML_ExperimentToolkit.Scripts.Managers {
@@ -11,14 +10,14 @@ namespace BML_ExperimentToolkit.Scripts.Managers {
 
     public class BlockSequenceRunner {
 
-        Experiment  experiment;
+        ExperimentRunner runner;
         List<Block> blocks;
 
         Block currentlyRunningBlock;
 
-        public BlockSequenceRunner(Experiment experiment, List<Block> blocks) {
+        public BlockSequenceRunner(ExperimentRunner runner, List<Block> blocks) {
             OnEnable();
-            this.experiment = experiment;
+            this.runner = runner;
             this.blocks = blocks;
         }
 
@@ -37,7 +36,7 @@ namespace BML_ExperimentToolkit.Scripts.Managers {
         public void Start() {
 
             if (blocks.Count <= 0) {
-                throw new InvalidDataException("Experiment blocks not created correctly");
+                throw new InvalidDataException("Runner blocks not created correctly");
             }
 
             //Debug.Log("Starting to run Blocks");
@@ -48,30 +47,17 @@ namespace BML_ExperimentToolkit.Scripts.Managers {
         void StartRunningBlock(Block block) {
 
             currentlyRunningBlock = block;
-            Debug.Log($"Starting to run block {block.Identity}");
+            Debug.Log($"*****\nStarting to run block: {block.Identity}");
             ExperimentEvents.BlockHasStarted(block);
+            ExperimentEvents.StartPart(block);
 
-            experiment.StartCoroutine(RunPreBlock(block));
-
-        }
-
-        IEnumerator RunPreBlock(Block block) {
-
-            yield return null; //let previous frame finish before starting
-
-            yield return currentlyRunningBlock.Pre();
-
-            TrialSequenceRunner trialSequenceRunner = new TrialSequenceRunner(experiment, block.Trials);
-            trialSequenceRunner.Start();
-            
         }
 
         IEnumerator RunPostBlock() {
-            yield return null; //let previous frame finish before starting
-
-            yield return currentlyRunningBlock.Post();
+            
             FinishBlock();
             GoToNextBlock();
+            yield return null;
         }
 
 
@@ -98,7 +84,7 @@ namespace BML_ExperimentToolkit.Scripts.Managers {
         void BlockDoneRunning(List<Trial> trials) {
 
 
-            experiment.StartCoroutine(RunPostBlock());
+            runner.StartCoroutine(RunPostBlock());
 
         }
 
@@ -117,8 +103,8 @@ namespace BML_ExperimentToolkit.Scripts.Managers {
             StartRunningBlock(blocks[jumpToIndex]);
         }
 
-        int BlockIndex(Block Block) {
-            return blocks.IndexOf(Block);
+        int BlockIndex(Block block) {
+            return blocks.IndexOf(block);
         }
 
     }

@@ -16,33 +16,33 @@ MonoBehaviour:
   ShuffleDifferentlyForEachBlock: 1
   RepeatTrialBlock: 1
   Factory:
-    DataTypesToCreate: 3
-    VariableTypeToCreate: 0
+    DataTypesToCreate: 0
+    VariableTypeToCreate: 2
     IntIVs:
-    - Name: Distance
+    - Name: IVint
       TypeOfVariable: 0
       DataType: 0
       MixingTypeOfVariable: 0
-      Block: 1
+      Block: 0
       Values: 0100000002000000
       Probabilities:
       - 0
       - 0
     FloatIVs:
-    - Name: Angle
+    - Name: IVfloat
       TypeOfVariable: 0
       DataType: 1
       MixingTypeOfVariable: 0
       Block: 0
       Values:
-      - 10
-      - 20
+      - 1.1
+      - 2.2
       Probabilities:
       - 0
       - 0
     StringIVs: []
     BoolIVs:
-    - Name: Window
+    - Name: IVbool
       TypeOfVariable: 0
       DataType: 3
       MixingTypeOfVariable: 0
@@ -53,10 +53,23 @@ MonoBehaviour:
     Vector3IVs: []
     CustomDataTypeIVs: []
     IntDVs: []
-    FloatDVs: []
+    FloatDVs:
+    - Name: output
+      TypeOfVariable: 1
+      DataType: 1
+      Value: 0
+      DefaultValue: -999
     StringDVs: []
     BoolDVs: []
     GameObjectDVs: []
     Vector3DVs: []
     CustomDataTypeDVs: []
+    IntParticipantVariables: []
+    FloatParticipantVariables: []
+    StringParticipantVariables: []
+    BoolParticipantVariables: []
+    GameObjectParticipantVariables: []
+    Vector3ParticipantVariables: []
+    CustomDataParticipantVariables: []
   ColumnNames: {fileID: 11400000, guid: b004757e12fd66b43828570a0f83b1db, type: 2}
+  ControlSettings: {fileID: 0}

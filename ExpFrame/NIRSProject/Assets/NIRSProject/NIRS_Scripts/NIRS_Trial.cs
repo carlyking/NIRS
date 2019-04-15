@@ -2,31 +2,38 @@
 using System.Data;
 using BML_ExperimentToolkit.Scripts.ExperimentParts;
 using UnityEngine;
+using Valve.VR;
 
 namespace Scenes {
     public class NIRS_Trial : Trial {
 
         GameObject Cube;
-        NIRSExp_ConfigOptions config;
+        NIRS_ExperimentRunner nirsRunner;
+        CubeSizeChanger cubeSize;
 
-        public NIRS_Trial(Experiment experiment, DataRow data) : base(experiment, data) {
+        bool trialDoneFlag;
+
+        public NIRS_Trial(ExperimentRunner runner, DataRow data) : base(runner, data) {
         }
 
-        protected override IEnumerator Pre() {
-            config = (NIRSExp_ConfigOptions)Experiment.ConfigOptions;
-            Cube = config.Cube;
+        public override void PreMethod() {
+            nirsRunner = (NIRS_ExperimentRunner)Runner;
+            Cube = nirsRunner.Cube;
             float length = (float)Data["Length"];
             float width = (float)Data["Width"];
             float height = (float)Data["Height"];
-            Cube.transform.localScale = new Vector3(x:length, y:width, z:height);
-            yield return null; 
+            cubeSize = Cube.GetComponent<CubeSizeChanger>();
+            cubeSize.SetSize(new Vector3(x:length, y:width, z:height));
+            trialDoneFlag = false;
+
+            nirsRunner.ControllerSettings.responseAction.onStateDown += FlipDoneSwitchEvent;
         }
 
-
-        protected override IEnumerator Main() {
+        
+        protected override IEnumerator RunMainCoroutine() {
             bool waiting = true;
             while (waiting) {
-                if (IsParticipantResponse()) {
+                if (trialDoneFlag) {
                     waiting = false;
                 }
                 yield return null;
@@ -34,18 +41,23 @@ namespace Scenes {
             }
         }
 
-        bool IsParticipantResponse() {
-            if (Input.GetKeyDown(KeyCode.A)) {
-                return true;
-            }
-            else {
-                return false;
-            }
+        
+
+        protected override void PostMethod() {
+            Data["MatchLength"] = cubeSize.ReturnLength();
+            
+
+
+            trialDoneFlag = false;
+            nirsRunner.ControllerSettings.responseAction.onStateDown -= FlipDoneSwitchEvent;
         }
 
-        protected override IEnumerator Post() {
-            Data["RT"] = 5;
-            yield return null;
+        void FlipDoneSwitchEvent(SteamVR_Action_Boolean fromaction, SteamVR_Input_Sources fromsource) {
+            FlipTrialDone();
+        }
+
+        void FlipTrialDone() {
+            trialDoneFlag = true;
         }
     }
 }

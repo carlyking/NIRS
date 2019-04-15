@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace BML_Utilities {
+namespace BML_Utilities.Extensions {
 
 
     public static class DataTableExtension {
@@ -77,7 +77,7 @@ namespace BML_Utilities {
 
             IEnumerable<IList> permutations = Permutate(dataRows, dataRows.Count);
 
-            List<List<DataRow>> AllPermutations = new List<List<DataRow>>();
+            List<List<DataRow>> allPermutations = new List<List<DataRow>>();
             foreach (IList perms in permutations) {
                 List<DataRow> permDataRows = new List<DataRow>();
                 foreach (DataRow permDataRow in perms) {
@@ -85,10 +85,10 @@ namespace BML_Utilities {
 
                 }
 
-                AllPermutations.Add(permDataRows);
+                allPermutations.Add(permDataRows);
             }
 
-            return AllPermutations;
+            return allPermutations;
         }
 
         public static void RotateRight(IList sequence, int count) {
@@ -101,7 +101,7 @@ namespace BML_Utilities {
             if (count == 1) yield return sequence;
             else {
                 for (int i = 0; i < count; i++) {
-                    foreach (var perm in Permutate(sequence, count - 1))
+                    foreach (IList perm in Permutate(sequence, count - 1))
                         yield return perm;
                     RotateRight(sequence, count);
                 }
@@ -126,10 +126,9 @@ namespace BML_Utilities {
 
 
         /// <summary>
-        /// Randomly shuffles the item order of this list
+        /// Randomly shuffles the row order of this table
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
+        /// <param name="table"></param>
         public static DataTable Shuffle(this DataTable table) {
             int n = table.Rows.Count;
             List<DataRow> shuffledRows = new List<DataRow>();

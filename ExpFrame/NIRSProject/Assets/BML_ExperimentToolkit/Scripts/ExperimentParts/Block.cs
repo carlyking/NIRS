@@ -2,34 +2,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using BML_Utilities;
-using UnityEngine;
+using BML_ExperimentToolkit.Scripts.Managers;
+using BML_Utilities.Extensions;
 
 namespace BML_ExperimentToolkit.Scripts.ExperimentParts {
 
     /// <summary>
-    /// This class stores a block a trials in an experiment.
+    /// This class stores a block a trials in an Runner.
     /// </summary>
-    public abstract class Block {
-        private const string TabSeparator    = "\t";
-        private const int    TruncateDefault = 10;
+    public abstract class Block : ExperimentPart {
 
-        public DataTable trialTable;
-        public string    Identity;
+        public DataTable TrialTable;
+        public readonly string    Identity;
 
         public bool Complete = false;
-        public int  Index    = -1;
-
+        ExperimentRunner runner;
         public List<Trial> Trials;
-        Experiment experiment;
 
-        public Block(Experiment experiment, 
+        protected Block(ExperimentRunner runner,
                      DataTable trialTable, 
                      string identity, 
-                     Type trialType) {
-            this.experiment = experiment;
-            this.trialTable = trialTable;
-            this.Identity = identity;
+                     Type trialType) 
+                        : base(runner) {
+            this.runner = runner;
+            TrialTable = trialTable;
+            Identity = identity;
             MakeTrials(trialType);
         }
 
@@ -40,43 +37,28 @@ namespace BML_ExperimentToolkit.Scripts.ExperimentParts {
         void MakeTrials(Type trialType) {
 
             Trials = new List<Trial>();
-
-            int i = 1;
-            //configure block index
-            foreach (DataRow row in trialTable.Rows) {
-                Trial newTrial = (Trial)Activator.CreateInstance(trialType, experiment, row);
+            
+            foreach (DataRow row in TrialTable.Rows) {
+                Trial newTrial = (Trial)Activator.CreateInstance(trialType, runner, row);
                 Trials.Add(newTrial);
-                i++;
+                
             }
+        }
+
+        protected override IEnumerator RunMainCoroutine() {
+
+            TrialSequenceRunner trialSequenceRunner = new TrialSequenceRunner(runner, Trials);
+            trialSequenceRunner.Start();
+            yield return null;
         }
 
         /// <summary>
         /// String output for the block
         /// </summary>
-        /// <param name="separator">The separator.</param>
-        /// <param name="TruncateToNum">The number of characters to leave.</param>
         /// <returns></returns>
-        public string AsString(string separator = TabSeparator, int TruncateToNum = TruncateDefault) {
-            string tableString = trialTable.AsString();
+        public string AsString() {
+            string tableString = TrialTable.AsString();
             return "Identity: " + Identity + "\n" + tableString;
-        }
-
-        /// <summary>
-        /// This code is run before each block. Overwrite this for custom behaviour
-        /// </summary>
-        /// <returns></returns>
-        public virtual IEnumerator Pre() {
-            //Debug.Log("No pre-block code defined");
-            yield return null;
-        }
-
-        /// <summary>
-        /// This code is run after each block. Overwrite this for custom behaviour
-        /// </summary>
-        /// <returns></returns>
-        public virtual IEnumerator Post() {
-            //Debug.Log("no post-block code defined");
-            yield return null;
         }
 
     }

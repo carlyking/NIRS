@@ -2,13 +2,13 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace BML_ExperimentToolkit.Scripts.VariableSystem {
+namespace BML_ExperimentToolkit.Scripts.VariableSystem.VariableUI {
 
 
     [CustomPropertyDrawer(typeof(VariableFactory))]
     public class VariableFactoryDrawer : PropertyDrawer {
 
-        const float lineHeight = 20f;
+        const float LineHeight = 20f;
         float       height;
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
@@ -20,62 +20,74 @@ namespace BML_ExperimentToolkit.Scripts.VariableSystem {
             //property.serializedObject.Update();
             int oldIndentLevel = EditorGUI.indentLevel;
 
-            Rect currentRect = new Rect(position.x, position.y + 20f, position.width, 20f);
-            float oldy = currentRect.y;
+            Rect currentRect = new Rect(position.x, position.y + LineHeight, position.width, LineHeight);
+            float oldY = currentRect.y;
 
-            EditorGUI.LabelField(currentRect, "--------");
+            Color oldColor = GUI.backgroundColor;
+            GUI.backgroundColor = Color.white;
 
             SerializedProperty dataTypeProperty =
                 property.FindPropertyRelative(nameof(VariableFactory.DataTypesToCreate));
             EditorGUI.PropertyField(currentRect, dataTypeProperty);
-            currentRect.y += lineHeight;
+            currentRect.y += LineHeight;
 
             SerializedProperty variableTypeProperty =
                 property.FindPropertyRelative(nameof(VariableFactory.VariableTypeToCreate));
             EditorGUI.PropertyField(currentRect, variableTypeProperty);
-            currentRect.y += lineHeight;
+            currentRect.y += LineHeight;
 
             if (GUI.Button(currentRect, "Create Variable")) {
                 VariableFactory factory =
                     fieldInfo.GetValue(property.serializedObject.targetObject) as VariableFactory;
                 factory?.AddNew();
             }
-
-            currentRect.y += lineHeight;
-
+            currentRect.y += LineHeight;
+            GUI.backgroundColor = oldColor;
 
             property.serializedObject.ApplyModifiedProperties();
 
+
+
             //ADD IVs
-            SerializedProperty intIVProperty = property.FindPropertyRelative(nameof(VariableFactory.IntIVs));
-            currentRect = AddPropertyFromList(currentRect, intIVProperty);
+            EditorGUI.LabelField(currentRect, "--------");
+            currentRect.y += LineHeight;
+            EditorGUI.LabelField(currentRect, "Independent Variables:", EditorStyles.boldLabel);
+            currentRect.y += LineHeight;
 
-            SerializedProperty floatsIVProperty = property.FindPropertyRelative(nameof(VariableFactory.FloatIVs));
-            currentRect = AddPropertyFromList(currentRect, floatsIVProperty);
+            SerializedProperty intIvProperty = property.FindPropertyRelative(nameof(VariableFactory.IntIVs));
+            currentRect = AddPropertyFromList(currentRect, intIvProperty);
 
-            SerializedProperty stringsIVProperty = property.FindPropertyRelative(nameof(VariableFactory.StringIVs));
-            currentRect = AddPropertyFromList(currentRect, stringsIVProperty);
+            SerializedProperty floatsIvProperty = property.FindPropertyRelative(nameof(VariableFactory.FloatIVs));
+            currentRect = AddPropertyFromList(currentRect, floatsIvProperty);
 
-            SerializedProperty boolsIVProperty = property.FindPropertyRelative(nameof(VariableFactory.BoolIVs));
-            currentRect = AddPropertyFromList(currentRect, boolsIVProperty);
+            SerializedProperty stringsIvProperty = property.FindPropertyRelative(nameof(VariableFactory.StringIVs));
+            currentRect = AddPropertyFromList(currentRect, stringsIvProperty);
 
-            SerializedProperty gameObjectsIVProperty =
+            SerializedProperty boolsIvProperty = property.FindPropertyRelative(nameof(VariableFactory.BoolIVs));
+            currentRect = AddPropertyFromList(currentRect, boolsIvProperty);
+
+            SerializedProperty gameObjectsIvProperty =
                 property.FindPropertyRelative(nameof(VariableFactory.GameObjectIVs));
-            currentRect = AddPropertyFromList(currentRect, gameObjectsIVProperty);
+            currentRect = AddPropertyFromList(currentRect, gameObjectsIvProperty);
 
-            SerializedProperty vector3IVProperty = property.FindPropertyRelative(nameof(VariableFactory.Vector3IVs));
-            currentRect = AddPropertyFromList(currentRect, vector3IVProperty);
+            SerializedProperty vector3IvProperty = property.FindPropertyRelative(nameof(VariableFactory.Vector3IVs));
+            currentRect = AddPropertyFromList(currentRect, vector3IvProperty);
 
-            SerializedProperty customDataTypesIVProperty =
+            SerializedProperty customDataTypesIvProperty =
                 property.FindPropertyRelative(nameof(VariableFactory.CustomDataTypeIVs));
-            currentRect = AddPropertyFromList(currentRect, customDataTypesIVProperty);
+            currentRect = AddPropertyFromList(currentRect, customDataTypesIvProperty);
 
             //ADD DVs
-            SerializedProperty intDVProperty = property.FindPropertyRelative(nameof(VariableFactory.IntDVs));
-            currentRect = AddPropertyFromList(currentRect, intDVProperty);
+            EditorGUI.LabelField(currentRect, "--------");
+            currentRect.y += LineHeight;
+            EditorGUI.LabelField(currentRect, "Dependent Variables:", EditorStyles.boldLabel);
+            currentRect.y += LineHeight;
 
-            SerializedProperty floatsDVProperty = property.FindPropertyRelative(nameof(VariableFactory.FloatDVs));
-            currentRect = AddPropertyFromList(currentRect, floatsDVProperty);
+            SerializedProperty intDvProperty = property.FindPropertyRelative(nameof(VariableFactory.IntDVs));
+            currentRect = AddPropertyFromList(currentRect, intDvProperty);
+
+            SerializedProperty floatsDvProperty = property.FindPropertyRelative(nameof(VariableFactory.FloatDVs));
+            currentRect = AddPropertyFromList(currentRect, floatsDvProperty);
 
             SerializedProperty stringsDvProperty = property.FindPropertyRelative(nameof(VariableFactory.StringDVs));
             currentRect = AddPropertyFromList(currentRect, stringsDvProperty);
@@ -87,26 +99,60 @@ namespace BML_ExperimentToolkit.Scripts.VariableSystem {
                 property.FindPropertyRelative(nameof(VariableFactory.GameObjectDVs));
             currentRect = AddPropertyFromList(currentRect, gameObjectsDvProperty);
 
-            SerializedProperty vector3DVProperty = property.FindPropertyRelative(nameof(VariableFactory.Vector3DVs));
-            currentRect = AddPropertyFromList(currentRect, vector3DVProperty);
+            SerializedProperty vector3DvProperty = property.FindPropertyRelative(nameof(VariableFactory.Vector3DVs));
+            currentRect = AddPropertyFromList(currentRect, vector3DvProperty);
 
-            SerializedProperty customDataTypesDVProperty =
+            SerializedProperty customDataTypesDvProperty =
                 property.FindPropertyRelative(nameof(VariableFactory.CustomDataTypeDVs));
-            currentRect = AddPropertyFromList(currentRect, customDataTypesDVProperty);
+            currentRect = AddPropertyFromList(currentRect, customDataTypesDvProperty);
 
+            //Add Participant variables
+            EditorGUI.LabelField(currentRect, "--------");
+            currentRect.y += LineHeight;
+            EditorGUI.LabelField(currentRect, "Participant Variables:", EditorStyles.boldLabel);
+            currentRect.y += LineHeight;
 
+            SerializedProperty intParticipantProperty = 
+                property.FindPropertyRelative(nameof(VariableFactory.IntParticipantVariables));
+            currentRect = AddPropertyFromList(currentRect, intParticipantProperty);
+
+            SerializedProperty floatParticipantProperty =
+                property.FindPropertyRelative(nameof(VariableFactory.FloatParticipantVariables));
+            currentRect = AddPropertyFromList(currentRect, floatParticipantProperty);
+
+            SerializedProperty stringParticipantProperty =
+                property.FindPropertyRelative(nameof(VariableFactory.StringParticipantVariables));
+            currentRect = AddPropertyFromList(currentRect, stringParticipantProperty);
+
+            SerializedProperty boolParticipantProperty =
+                property.FindPropertyRelative(nameof(VariableFactory.BoolParticipantVariables));
+            currentRect = AddPropertyFromList(currentRect, boolParticipantProperty);
+
+            SerializedProperty gameObjectParticipantProperty =
+                property.FindPropertyRelative(nameof(VariableFactory.GameObjectParticipantVariables));
+            currentRect = AddPropertyFromList(currentRect, gameObjectParticipantProperty);
+
+            SerializedProperty vector3ParticipantProperty =
+                property.FindPropertyRelative(nameof(VariableFactory.Vector3ParticipantVariables));
+            currentRect = AddPropertyFromList(currentRect, vector3ParticipantProperty);
+
+            SerializedProperty customDataParticipantProperty =
+                property.FindPropertyRelative(nameof(VariableFactory.CustomDataParticipantVariables));
+            currentRect = AddPropertyFromList(currentRect, customDataParticipantProperty);
+            
+            
 
             EditorGUI.LabelField(currentRect, "--------");
-            currentRect.y += 20f;
-            //var floatsProperty = property.FindPropertyRelative(nameof(VariableFactory.floatData));
-            //EditorGUI.PropertyField(currentRect, floatsProperty, GUIContent.none, includeChildren: true);
-
-            //currentRect.y += 20f;
+            currentRect.y += LineHeight;
+            
+            EditorGUI.LabelField(currentRect, "Settings:", EditorStyles.boldLabel);
+            currentRect.y += LineHeight;
+            
 
             EditorGUI.indentLevel = oldIndentLevel;
             if (Math.Abs(height - currentRect.y) > 0.001f) {
 
-                height = currentRect.y - oldy;
+                height = currentRect.y - oldY;
                 //Debug.Log($"setting height of factory drawer to {height}");
             }
 
@@ -118,22 +164,23 @@ namespace BML_ExperimentToolkit.Scripts.VariableSystem {
             for (int i = 0; i < valueProperty.arraySize; i++) {
                 SerializedProperty item = valueProperty.GetArrayElementAtIndex(i);
                 EditorGUI.PropertyField(currentRect, item, GUIContent.none);
-                currentRect.y += EditorGUI.GetPropertyHeight(item, GUIContent.none) + lineHeight;
+                currentRect.y += EditorGUI.GetPropertyHeight(item, GUIContent.none) + LineHeight;
 
-                float ypad = (currentRect.height - (currentRect.height * deleteButtonHeight)) / 2f;
-                Rect deleteButtonRect = new Rect(currentRect.x + 40, currentRect.y + ypad, 125,
+                float yPadding = (currentRect.height - (currentRect.height * deleteButtonHeight)) / 2f;
+                Rect deleteButtonRect = new Rect(currentRect.x + 40, currentRect.y + yPadding, 125,
                                                  deleteButtonHeight * currentRect.height);
-                Color oldColor = GUI.color;
+                Color oldColor = GUI.backgroundColor;
                 //GUI.color = Color.red;
                 //GUI.DrawTexture(currentRect, EditorGUIUtility.whiteTexture);
+                GUI.backgroundColor = Color.red;
                 if (GUI.Button(deleteButtonRect, "Delete Variable")) {
                     valueProperty.DeleteArrayElementAtIndex(i);
                     break;
                 }
+                
+                GUI.backgroundColor = oldColor;
 
-                GUI.color = oldColor;
-
-                currentRect.y += lineHeight;
+                currentRect.y += LineHeight;
             }
 
             valueProperty.serializedObject.ApplyModifiedProperties();

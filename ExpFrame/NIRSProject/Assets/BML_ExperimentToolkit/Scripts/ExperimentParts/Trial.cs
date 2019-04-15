@@ -1,189 +1,89 @@
-﻿using System.Collections;
-using System.Data;
+﻿using System.Data;
 using BML_ExperimentToolkit.Scripts.Managers;
-using UnityEngine;
+
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace BML_ExperimentToolkit.Scripts.ExperimentParts {
 
     /// <summary>
-    /// One Trial of an experiment. The experiment calls Run on this trial,
+    /// One Trial of an Runner. The Runner calls Run on this trial,
     /// and it is in charge of setting and cleaning itself up
     /// </summary>
-    public abstract class Trial {
-        protected bool TrialRunning = true;
-        bool           interrupt;
-
+    public abstract class Trial : ExperimentPart {
+        
 
         // ReSharper disable once NotAccessedField.Local
-        protected readonly Experiment Experiment;
+        protected readonly ExperimentRunner Runner;
         public readonly DataRow Data;
 
-        MonoBehaviour  runner;
-        public int     Index      => (int) Data[Experiment.ColumnNames.TrialIndex];
-        public int     BlockIndex => (int) (Data[Experiment.ColumnNames.BlockIndex]);
+        public int     Index      => (int) Data[Runner.ConfigFile.ColumnNames.TrialIndex];
+        public int     BlockIndex => (int) Data[Runner.ConfigFile.ColumnNames.BlockIndex];
         public string  TrialText  => $"Trial {Index} of Block {BlockIndex}";
 
         public bool CompletedSuccessfully {
-            get => (bool) Data[Experiment.ColumnNames.Completed];
-            set => Data[Experiment.ColumnNames.Completed] = value;
+            get => (bool)Data[Runner.ConfigFile.ColumnNames.Completed];
+            set => Data[Runner.ConfigFile.ColumnNames.Completed] = value;
+        }
+
+        public float TrialTime {
+            set => Data[Runner.ConfigFile.ColumnNames.TrialTime] = value;
         }
 
         public int Attempts {
-            get => (int) Data[Experiment.ColumnNames.Attempts];
-            set => Data[Experiment.ColumnNames.Attempts] = value;
+            get => (int) Data[Runner.ConfigFile.ColumnNames.Attempts];
+            set => Data[Runner.ConfigFile.ColumnNames.Attempts] = value;
         }
 
         public bool Skipped {
-            get => (bool) Data[Experiment.ColumnNames.Skipped];
-            set => Data[Experiment.ColumnNames.Skipped] = value;
+            get => (bool) Data[Runner.ConfigFile.ColumnNames.Skipped];
+            set => Data[Runner.ConfigFile.ColumnNames.Skipped] = value;
         }
 
-        protected Trial(Experiment experiment, DataRow data) {
+        protected Trial(ExperimentRunner runner, DataRow data) : base(runner) {
             Data = data;
-            Experiment = experiment;
-
+            Runner = runner;
+            CompletedSuccessfully = false;
+            
         }
+
+        
 
         /// <summary>
         /// Run the main section of trial
         /// </summary>
-        /// <param name="theRunner"></param>
         /// <returns></returns>
-        public IEnumerator Run(MonoBehaviour theRunner) {
-            this.runner = theRunner;
-            InitializeTrial();
-            //Skip a frame to allow any previous things to end
-            yield return null;
-
-            runner.StartCoroutine(RunExperimentControls());
-
-            Debug.Log($"{TrialText} Running...");
-            
-            yield return RunCoroutineWhileListeningForInterrupt(Pre() );
-            yield return RunCoroutineWhileListeningForInterrupt(Main());
-            yield return RunCoroutineWhileListeningForInterrupt(Post());
-            
+        protected override void InternalPostMethod() {
             FinalizeTrial();
-
-            if (!interrupt) ExperimentEvents.TrialHasCompleted();
-        }
-
-        IEnumerator RunCoroutineWhileListeningForInterrupt(IEnumerator coroutineMethod) {
-            while (!interrupt && coroutineMethod.MoveNext()) yield return coroutineMethod.Current;
-        }
-
-        /// <summary>
-        /// Initializes the trial
-        /// </summary>
-        void InitializeTrial() {
-            CompletedSuccessfully = false;
-            interrupt = false;
-            TrialRunning = true;
+            if (!Interrupt) ExperimentEvents.TrialHasCompleted();
         }
 
         /// <summary>
         /// Finalizes the trial
         /// </summary>
         public void FinalizeTrial() {
-            TrialRunning = false;
-            if (!interrupt) {
-                //Debug.Log($"Finalizing {TrialText}");
+            if (!Interrupt) {
                 CompletedSuccessfully = true;
                 Attempts++;
             }
+            
+            TrialTime = RunTime;
+            
+
+        }
+        
+        public void SkipCompletely() {
+           
+            Skipped = true;
+            InterruptTrial();
 
         }
 
-        /// <summary>
-        /// Allows experimenter to control the experiments and jump between trials.
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerator RunExperimentControls() {
+        public void InterruptTrial() {
 
-            while (TrialRunning) {
-
-                //let things from last frame finish up before running
-                yield return null;
-
-                if (Input.GetKeyDown(KeyCode.Backspace)) {
-                    //Debug.Log("detected skip key");
-                    interrupt = true;
-                    TrialRunning = false;
-                    Skipped = true;
-                    FinalizeTrial();
-                    //Let notifications disperse through program for a frame
-                    yield return null;
-
-                    ExperimentEvents.InterruptTrial();
-                }
-
-                if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow)) {
-                    //Debug.Log($"detected last key");
-                    interrupt = true;
-                    TrialRunning = false;
-                    FinalizeTrial();
-                    //Let notifications disperse through program for a frame
-                    yield return null;
-
-                    ExperimentEvents.GoBackOneTrial();
-
-                }
-
-                if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow)) {
-                    //Debug.Log($"detected next key");
-                    interrupt = true;
-                    TrialRunning = false;
-                    FinalizeTrial();
-                    //Let notifications disperse through program for a frame
-                    yield return null;
-
-
-                    ExperimentEvents.SkipToNextTrial();
-
-                }
-
-                if (!TrialRunning) {
-                    runner.StopCoroutine(this.Run(runner));
-                }
-
-            }
-
-            //Let notifications disperse through program for a frame
-            yield return null;
+            InterruptThis();
+            FinalizeTrial();
         }
 
-        //Interrupts the trial while allowing the frame to complete
-        public void Interrupt() {
-            interrupt = true;
-        }
-
-        /// <summary>
-        /// Code that runs before each trial. Overwrite this for custom behaviour.
-        /// Suggest doing trial setup here.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual IEnumerator Pre() {
-            //Debug.Log($"No Pre-Trial code defined");
-            yield return null;
-        }
-
-        /// <summary>
-        /// Code that runs during trial. You must overwrite this.
-        /// Setup should go in Pre() method
-        /// Cleanup and writing to dependent variables should go in Post() method
-        /// </summary>
-        /// <returns></returns>
-        protected abstract IEnumerator Main();
-
-        /// <summary>
-        /// Code that runs after each trial. Overwrite this for custom behaviour.
-        /// suggest doing trial cleanup and writing output to data here
-        /// </summary>
-        /// <returns></returns>
-        protected virtual IEnumerator Post() {
-            //Debug.Log($"No post trial code defined");
-            yield return null;
-        }
-
+      
     }
 }
